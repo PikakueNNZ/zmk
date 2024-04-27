@@ -182,7 +182,7 @@ int zmk_mouse_hog_send_mouse_report(struct zmk_hid_mouse_report_body *report) {
         }
     }
 
-    err = k_work_submit_to_queue(&mouse_hog_work_q, &hog_mouse_work);
+    err = k_work_submit(&hog_mouse_work);
     LOG_DBG("Submit mouse report to queue (%d)", err);
 
     return 0;
