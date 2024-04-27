@@ -171,18 +171,19 @@ int zmk_mouse_hog_send_mouse_report(struct zmk_hid_mouse_report_body *report) {
     if (err) {
         switch (err) {
         case -EAGAIN: {
-            LOG_WRN("Consumer message queue full, popping first message and queueing again");
+            LOG_DBG("Consumer message queue full, popping first message and queueing again");
             struct zmk_hid_mouse_report_body discarded_report;
             k_msgq_get(&zmk_hog_mouse_msgq, &discarded_report, K_NO_WAIT);
             return zmk_mouse_hog_send_mouse_report(report);
         }
         default:
-            LOG_WRN("Failed to queue mouse report to send (%d)", err);
+            LOG_DBG("Failed to queue mouse report to send (%d)", err);
             return err;
         }
     }
 
     k_work_submit_to_queue(&mouse_hog_work_q, &hog_mouse_work);
+    LOG_DBG("Submit mouse report to queue");
 
     return 0;
 };

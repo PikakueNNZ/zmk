@@ -224,6 +224,7 @@ int zmk_endpoints_send_mouse_report() {
     case ZMK_TRANSPORT_BLE: {
 #if IS_ENABLED(CONFIG_ZMK_BLE)
         struct zmk_hid_mouse_report *mouse_report = zmk_mouse_hid_get_mouse_report();
+        LOG_DBG("Send mouse report via BLE");
         int err = zmk_mouse_hog_send_mouse_report(&mouse_report->body);
         if (err) {
             LOG_ERR("FAILED TO SEND OVER HOG: %d", err);
