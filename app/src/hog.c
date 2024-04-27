@@ -249,18 +249,19 @@ int zmk_hog_send_keyboard_report(struct zmk_hid_keyboard_report_body *report) {
     if (err) {
         switch (err) {
         case -EAGAIN: {
-            LOG_WRN("Keyboard message queue full, popping first message and queueing again");
+            LOG_DBG("Keyboard message queue full, popping first message and queueing again");
             struct zmk_hid_keyboard_report_body discarded_report;
             k_msgq_get(&zmk_hog_keyboard_msgq, &discarded_report, K_NO_WAIT);
             return zmk_hog_send_keyboard_report(report);
         }
         default:
-            LOG_WRN("Failed to queue keyboard report to send (%d)", err);
+            LOG_DBG("Failed to queue keyboard report to send (%d)", err);
             return err;
         }
     }
 
     k_work_submit_to_queue(&hog_work_q, &hog_keyboard_work);
+    LOG_DBG("Submit keyboard to queue");
 
     return 0;
 };
