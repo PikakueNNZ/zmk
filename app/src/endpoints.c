@@ -119,9 +119,7 @@ int zmk_endpoints_toggle_transport(void) {
     return zmk_endpoints_select_transport(new_transport);
 }
 
-struct zmk_endpoint_instance zmk_endpoints_selected(void) {
-    return current_instance;
-}
+struct zmk_endpoint_instance zmk_endpoints_selected(void) { return current_instance; }
 
 static int send_keyboard_report(void) {
     switch (current_instance.transport) {
@@ -141,6 +139,7 @@ static int send_keyboard_report(void) {
     case ZMK_TRANSPORT_BLE: {
 #if IS_ENABLED(CONFIG_ZMK_BLE)
         struct zmk_hid_keyboard_report *keyboard_report = zmk_hid_get_keyboard_report();
+        LOG_ERR("Send keyboard_report via BLE");
         int err = zmk_hog_send_keyboard_report(&keyboard_report->body);
         if (err) {
             LOG_ERR("FAILED TO SEND OVER HOG: %d", err);
