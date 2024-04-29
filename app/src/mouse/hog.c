@@ -141,6 +141,7 @@ K_MSGQ_DEFINE(zmk_hog_mouse_msgq, sizeof(struct zmk_hid_mouse_report_body),
 
 void send_mouse_report_callback(struct k_work *work) {
     struct zmk_hid_mouse_report_body report;
+    LOG_DBG("send mouse report callback");
     while (k_msgq_get(&zmk_hog_mouse_msgq, &report, K_NO_WAIT) == 0) {
         struct bt_conn *conn = destination_connection();
         if (conn == NULL) {
