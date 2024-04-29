@@ -154,6 +154,7 @@ void send_mouse_report_callback(struct k_work *work) {
             .len = sizeof(report),
         };
 
+        LOG_DBG("bt_gatt_notify_cb");
         int err = bt_gatt_notify_cb(conn, &notify_params);
         if (err == -EPERM) {
             bt_conn_set_security(conn, BT_SECURITY_L2);
@@ -161,6 +162,7 @@ void send_mouse_report_callback(struct k_work *work) {
             LOG_DBG("Error notifying %d", err);
         }
 
+        LOG_DBG("bt_conn_unref");
         bt_conn_unref(conn);
     }
 };
