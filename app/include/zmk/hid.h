@@ -10,6 +10,13 @@
 
 #include <zephyr/usb/usb_device.h>
 #include <zephyr/usb/class/usb_hid.h>
+#ifndef HID_ITEM_TAG_UNIT_EXPONENT
+#define HID_ITEM_TAG_UNIT_EXPONENT 0x05
+#endif
+
+#ifndef HID_UNIT_EXPONENT
+#define HID_UNIT_EXPONENT(a) HID_ITEM(HID_ITEM_TAG_UNIT_EXPONENT, HID_ITEM_TYPE_GLOBAL, 1), a
+#endif
 
 #include <zmk/keys.h>
 #if IS_ENABLED(CONFIG_ZMK_POINTING)
