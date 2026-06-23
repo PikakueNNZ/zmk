@@ -254,11 +254,11 @@ static void apply_resolution_scaling(struct input_listener_data *data, struct in
     switch (evt->code) {
     case INPUT_REL_WHEEL:
         remainder = &data->wheel_remainder;
-        div = (16 - zmk_pointing_resolution_multipliers_get_current_profile().wheel);
+        div = zmk_pointing_resolution_multipliers_get_current_profile().wheel ? 1 : 120;
         break;
     case INPUT_REL_HWHEEL:
         remainder = &data->h_wheel_remainder;
-        div = (16 - zmk_pointing_resolution_multipliers_get_current_profile().hor_wheel);
+        div = zmk_pointing_resolution_multipliers_get_current_profile().hor_wheel ? 1 : 120;
         break;
     default:
         return;
@@ -267,7 +267,7 @@ static void apply_resolution_scaling(struct input_listener_data *data, struct in
     int16_t val = evt->value + *remainder;
     int16_t scaled = val / (int16_t)div;
     *remainder = val - (scaled * (int16_t)div);
-    evt->value = val;
+    evt->value = scaled;
 }
 #endif // IS_ENABLED(CONFIG_ZMK_POINTING_SMOOTH_SCROLLING)
 
